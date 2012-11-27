@@ -34,6 +34,9 @@
 
 int main(int argc, char* argv[])
 {
+    const int kScreenWidth = 1024;
+    const int kScreenHeight = 768;
+    
 	// get things going
 	//  optional parameters:
 	//		int windowWidth			default: 1024
@@ -41,7 +44,7 @@ int main(int argc, char* argv[])
 	//		std::string windowName	default: "Angel Engine"
 	//		bool antiAliasing		default: false
 	//		bool fullScreen			default: false
-	theWorld.Initialize(1024, 768, "Angel Engine", false, false);
+	theWorld.Initialize(kScreenWidth, kScreenHeight, "Angel Engine", false, false);
 
 	//we're going to be using the built-in physics
 	theWorld.SetupPhysics();

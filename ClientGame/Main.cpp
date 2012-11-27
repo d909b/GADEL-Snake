@@ -1,9 +1,12 @@
 
 #include "stdafx.h"
+#include "SnakesGameManager.h"
 
 
 int main(int argc, char* argv[])
 {
+    const int kScreenWidth = 1024, kScreenHeight = 768;
+    
 	// get things going
 	//  optional parameters:
 	//		int windowWidth			default: 1024
@@ -11,22 +14,12 @@ int main(int argc, char* argv[])
 	//		std::string windowName	default: "Angel Engine"
 	//		bool antiAliasing		default: false
 	//		bool fullScreen			default: false
-	theWorld.Initialize(1280, 1050, "TestGame", true, false);
+	theWorld.Initialize(kScreenWidth, kScreenHeight, "Blindschleiche", true, false);
 	
 	//adds the default grid so you can more easily place Actors
-	theWorld.Add(new GridActor(), -1);
-	
-	//YOUR GAME SETUP CODE HERE
-	
-	
-	
-    
+	//theWorld.Add(new GridActor(), -1);
 
-	
-	
-	
-	
-	
+	theWorld.SetGameManager(&theGameManager);
 	
 	// do all your setup first, because this function won't return until you're exiting
 	theWorld.StartGame();

@@ -29,6 +29,7 @@ public:
     Vector2 GetIntermediatePosition(Actor* actor) const;
     Vector2 WorldSpaceToGrid(Vector2 pos) const;
     Vector2 GridToWorldSpace(Vector2 pos) const;
+    Vector2 GetSize() const;
 private:    
     uint32_t m_width, m_height;
     std::vector<Actor*> m_actors;
@@ -36,6 +37,6 @@ private:
     typedef std::map<Actor*, Vector2> positionMapType;
     positionMapType m_intermediatePositions;
     
-    typedef std::vector<Actor*>** gridType;
+    typedef std::set<Actor*>** gridType;
     gridType m_collisionGrid;
 };

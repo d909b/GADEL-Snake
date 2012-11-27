@@ -9,17 +9,18 @@
 #include "Grid.h"
 #include <algorithm>
 #include <cmath>
+#include <set>
 
 Grid::Grid(uint32_t width, uint32_t height) :
     m_width(width),
     m_height(height)
 {
     /** Reserve memory for the grid. */
-    m_collisionGrid = new std::vector<Actor*>*[m_width];
+    m_collisionGrid = new std::set<Actor*>*[m_width];
     
     for(uint32_t i = 0; i < m_width; ++i)
     {
-        m_collisionGrid[i] = new std::vector<Actor*>[m_height];
+        m_collisionGrid[i] = new std::set<Actor*>[m_height];
     }
 }
 
@@ -37,6 +38,7 @@ Grid::~Grid()
 void
 Grid::Update(float dt)
 {
+    /** Mark each actor on its current grid position. */
     std::vector<Actor*>::iterator it = m_actors.begin();
     for(; it != m_actors.end(); ++it)
     {
@@ -45,28 +47,36 @@ Grid::Update(float dt)
         
         Vector2 coords = WorldSpaceToGrid(m_intermediatePositions[actor]);
         
-        /** Snap all actors positions to the grid. */
-        actor->SetPosition(GridToWorldSpace(coords));
+        /** SetPosition sets the center of the sprite, thus we have to add half the width/height. */
+        Vector2 worldPos = GridToWorldSpace(coords) + actor->GetSize() / 2;
         
-        /** Cast is safe because grid space is integer values only, necessary due to lack of vec2i class. */
-        m_collisionGrid[static_cast<int>(coords.X)][static_cast<int>(coords.Y)].push_back(actor);
+        /** Snap all actors positions to the grid. */
+        actor->SetPosition(worldPos);
+        
+        /** 
+         * Cast is safe because grid space is integer values only - its necessary due to lack of vec2i class. 
+         * values from WorldSpaceToGrid will always be in the range [0, m_width) x [0, m_height).
+         */
+        m_collisionGrid[static_cast<int>(coords.X)][static_cast<int>(coords.Y)].insert(actor);
     }
     
+    /** Evaluate every grid cell for collisions. */
     for(int i = 0; i < m_width; ++i)
     {
         for(int j = 0; j < m_height; ++j)
         {
-            std::vector<Actor*>& cellOccupiers = m_collisionGrid[i][j];
+            std::set<Actor*>& cellOccupiers = m_collisionGrid[i][j];
 
             /** More than one occupier means a collision occured. */
             if(cellOccupiers.size() > 1)
             {
                 /** 
-                 * Dispatch a collision message for every detected collision.
+                 * Dispatch a collision message for every detected collision,
+                 * containing all the actors part of the collision.
                  */
-                TypedMessage<std::vector<Actor*> >* collisionMessage =
-                    new TypedMessage<std::vector<Actor*> >("GridCollision",
-                                                           cellOccupiers);
+                TypedMessage<std::set<Actor*> >* collisionMessage =
+                    new TypedMessage<std::set<Actor*> >("GridCollision",
+                                                        cellOccupiers);
                 
                 theSwitchboard.Broadcast(collisionMessage);
             }
@@ -75,6 +85,12 @@ Grid::Update(float dt)
             cellOccupiers.clear();
         }
     }
+}
+
+Vector2
+Grid::GetSize() const
+{
+    return Vector2(m_width, m_height);
 }
 
 void
@@ -115,6 +131,9 @@ Grid::GetIntermediatePosition(Actor* actor) const
 {
     positionMapType::const_iterator it = m_intermediatePositions.find(actor);
     
+    /**
+     * Return (0, 0) for actors that are not registered with the grid.
+     */
     if(it == m_intermediatePositions.end())
     {
         return Vector2(0, 0);
@@ -129,6 +148,7 @@ Grid::WorldSpaceToGrid(Vector2 pos) const
 #define CLAMP(x, minval, maxval) (MIN(MAX(minval, x), maxval))
     Vector2 max = theCamera.GetWorldMaxVertex();
     
+    /** Times two because the origin is the center of the screen in Angel. */
     const float kUnitLengthX = max.X * 2 / m_width;
     const float kUnitLengthY = max.Y * 2 / m_height;
     
@@ -136,6 +156,7 @@ Grid::WorldSpaceToGrid(Vector2 pos) const
     pos.X = round(pos.X + max.X / kUnitLengthX);
     pos.Y = round(pos.Y + max.Y / kUnitLengthY);
     
+    /** Clamp values that are outside of the grid. */
     pos.X = CLAMP(pos.X, 0, m_width - 1);
     pos.Y = CLAMP(pos.Y, 0, m_height - 1);
     

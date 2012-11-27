@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include <stdint.h>
 #include "SnakesGameManager.h"
 
 /**
@@ -15,12 +16,12 @@
 *
 * @description Implementation of class MenuScreen.
 */
-class MenuScreen : public SnakesScreen
+class MenuScreen : public SnakesScreen, public MessageListener
 {
 public:
     MenuScreen();
     virtual void Start();
-	virtual void Update(float dt);
+    virtual void ReceiveMessage(Message* m);
 private:
     bool m_isStartGame;
     bool m_messageSent;

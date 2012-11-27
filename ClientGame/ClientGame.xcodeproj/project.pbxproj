@@ -57,6 +57,17 @@
 		CD912FFB166451FF0020A3BC /* HighscoreScreen.h in Headers */ = {isa = PBXBuildFile; fileRef = CD912FF9166451FF0020A3BC /* HighscoreScreen.h */; };
 		CDB0905E16649C60009AE327 /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDB0905C16649C60009AE327 /* Grid.cpp */; };
 		CDB0905F16649C60009AE327 /* Grid.h in Headers */ = {isa = PBXBuildFile; fileRef = CDB0905D16649C60009AE327 /* Grid.h */; };
+		CDB090621665245D009AE327 /* FoodGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDB090601665245D009AE327 /* FoodGenerator.cpp */; };
+		CDB090631665245D009AE327 /* FoodGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = CDB090611665245D009AE327 /* FoodGenerator.h */; };
+		CDB0906616652468009AE327 /* PowerupGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDB0906416652468009AE327 /* PowerupGenerator.cpp */; };
+		CDB0906716652468009AE327 /* PowerupGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = CDB0906516652468009AE327 /* PowerupGenerator.h */; };
+		CDB0906C166524A6009AE327 /* Consumable.h in Headers */ = {isa = PBXBuildFile; fileRef = CDB0906A166524A6009AE327 /* Consumable.h */; };
+		CDB09073166524C3009AE327 /* PowerUp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDB09071166524C3009AE327 /* PowerUp.cpp */; };
+		CDB09074166524C3009AE327 /* PowerUp.h in Headers */ = {isa = PBXBuildFile; fileRef = CDB09072166524C3009AE327 /* PowerUp.h */; };
+		CDB09077166524E3009AE327 /* Food.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDB09075166524E3009AE327 /* Food.cpp */; };
+		CDB09078166524E3009AE327 /* Food.h in Headers */ = {isa = PBXBuildFile; fileRef = CDB09076166524E3009AE327 /* Food.h */; };
+		CDB0907B166524E9009AE327 /* Snake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDB09079166524E9009AE327 /* Snake.cpp */; };
+		CDB0907C166524E9009AE327 /* Snake.h in Headers */ = {isa = PBXBuildFile; fileRef = CDB0907A166524E9009AE327 /* Snake.h */; };
 		CDFCE85416643AAF00EDC839 /* SnakesGameManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDFCE85216643AAF00EDC839 /* SnakesGameManager.cpp */; };
 		CDFCE85516643AAF00EDC839 /* SnakesGameManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CDFCE85316643AAF00EDC839 /* SnakesGameManager.h */; };
 		CDFCE858166442C200EDC839 /* MenuScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDFCE856166442C200EDC839 /* MenuScreen.cpp */; };
@@ -209,6 +220,17 @@
 		CD912FF9166451FF0020A3BC /* HighscoreScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighscoreScreen.h; sourceTree = "<group>"; };
 		CDB0905C16649C60009AE327 /* Grid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Grid.cpp; sourceTree = "<group>"; };
 		CDB0905D16649C60009AE327 /* Grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grid.h; sourceTree = "<group>"; };
+		CDB090601665245D009AE327 /* FoodGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FoodGenerator.cpp; sourceTree = "<group>"; };
+		CDB090611665245D009AE327 /* FoodGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoodGenerator.h; sourceTree = "<group>"; };
+		CDB0906416652468009AE327 /* PowerupGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PowerupGenerator.cpp; sourceTree = "<group>"; };
+		CDB0906516652468009AE327 /* PowerupGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerupGenerator.h; sourceTree = "<group>"; };
+		CDB0906A166524A6009AE327 /* Consumable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Consumable.h; sourceTree = "<group>"; };
+		CDB09071166524C3009AE327 /* PowerUp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PowerUp.cpp; sourceTree = "<group>"; };
+		CDB09072166524C3009AE327 /* PowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerUp.h; sourceTree = "<group>"; };
+		CDB09075166524E3009AE327 /* Food.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Food.cpp; sourceTree = "<group>"; };
+		CDB09076166524E3009AE327 /* Food.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Food.h; sourceTree = "<group>"; };
+		CDB09079166524E9009AE327 /* Snake.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Snake.cpp; sourceTree = "<group>"; };
+		CDB0907A166524E9009AE327 /* Snake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Snake.h; sourceTree = "<group>"; };
 		CDFCE85216643AAF00EDC839 /* SnakesGameManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SnakesGameManager.cpp; sourceTree = "<group>"; };
 		CDFCE85316643AAF00EDC839 /* SnakesGameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnakesGameManager.h; sourceTree = "<group>"; };
 		CDFCE856166442C200EDC839 /* MenuScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuScreen.cpp; sourceTree = "<group>"; };
@@ -330,8 +352,26 @@
 			children = (
 				CDB0905C16649C60009AE327 /* Grid.cpp */,
 				CDB0905D16649C60009AE327 /* Grid.h */,
+				CDB090601665245D009AE327 /* FoodGenerator.cpp */,
+				CDB090611665245D009AE327 /* FoodGenerator.h */,
+				CDB0906416652468009AE327 /* PowerupGenerator.cpp */,
+				CDB0906516652468009AE327 /* PowerupGenerator.h */,
 			);
 			name = Infrastructure;
+			sourceTree = "<group>";
+		};
+		CDB0906816652475009AE327 /* Actors */ = {
+			isa = PBXGroup;
+			children = (
+				CDB0906A166524A6009AE327 /* Consumable.h */,
+				CDB09071166524C3009AE327 /* PowerUp.cpp */,
+				CDB09072166524C3009AE327 /* PowerUp.h */,
+				CDB09075166524E3009AE327 /* Food.cpp */,
+				CDB09076166524E3009AE327 /* Food.h */,
+				CDB09079166524E9009AE327 /* Snake.cpp */,
+				CDB0907A166524E9009AE327 /* Snake.h */,
+			);
+			name = Actors;
 			sourceTree = "<group>";
 		};
 		CDFCE85016643A6E00EDC839 /* SnakesGame */ = {
@@ -347,6 +387,7 @@
 		CDFCE85116643A7F00EDC839 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				CDB0906816652475009AE327 /* Actors */,
 				CDB0904D16649B06009AE327 /* Infrastructure */,
 				CDFCE856166442C200EDC839 /* MenuScreen.cpp */,
 				CDFCE857166442C200EDC839 /* MenuScreen.h */,
@@ -371,6 +412,12 @@
 				CDFCE85D166442EA00EDC839 /* GameScreen.h in Headers */,
 				CD912FFB166451FF0020A3BC /* HighscoreScreen.h in Headers */,
 				CDB0905F16649C60009AE327 /* Grid.h in Headers */,
+				CDB090631665245D009AE327 /* FoodGenerator.h in Headers */,
+				CDB0906716652468009AE327 /* PowerupGenerator.h in Headers */,
+				CDB0906C166524A6009AE327 /* Consumable.h in Headers */,
+				CDB09074166524C3009AE327 /* PowerUp.h in Headers */,
+				CDB09078166524E3009AE327 /* Food.h in Headers */,
+				CDB0907C166524E9009AE327 /* Snake.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -559,6 +606,11 @@
 				CDFCE85C166442EA00EDC839 /* GameScreen.cpp in Sources */,
 				CD912FFA166451FF0020A3BC /* HighscoreScreen.cpp in Sources */,
 				CDB0905E16649C60009AE327 /* Grid.cpp in Sources */,
+				CDB090621665245D009AE327 /* FoodGenerator.cpp in Sources */,
+				CDB0906616652468009AE327 /* PowerupGenerator.cpp in Sources */,
+				CDB09073166524C3009AE327 /* PowerUp.cpp in Sources */,
+				CDB09077166524E3009AE327 /* Food.cpp in Sources */,
+				CDB0907B166524E9009AE327 /* Snake.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

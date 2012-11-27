@@ -8,6 +8,12 @@
 
 #include "GameScreen.h"
 
+GameScreen::GameScreen() :
+    m_grid(theCamera.GetWorldMaxVertex().X * 2, theCamera.GetWorldMaxVertex().Y * 2)
+{
+    ;
+}
+
 void
 GameScreen::Start()
 {
@@ -21,7 +27,9 @@ GameScreen::Start()
     m_highscore->SetPosition(MathUtil::ScreenToWorld(5, 25));
     m_highscore->SetColor(0, 0, 0);
     
+    theWorld.Add(new GridActor());
     theWorld.Add(m_highscore);
+    m_grid.AddActor(m_snake);
     theWorld.Add(m_snake);
     m_objects.push_back(m_snake);
 }
@@ -29,7 +37,7 @@ GameScreen::Start()
 void
 GameScreen::Update(float dt)
 {
-    static const float kSnakeMovementSpeed = 0.5f;
+    static const float kSnakeMovementSpeed = 10.f;
     static int lastDirection = GLFW_KEY_UP;
     
 	if(theInput.IsKeyDown(GLFW_KEY_UP) ||
@@ -53,7 +61,7 @@ GameScreen::Update(float dt)
         lastDirection = GLFW_KEY_RIGHT;
     }
     
-    Vector2 pos = m_snake->GetPosition();
+    Vector2 pos = m_grid.GetIntermediatePosition(m_snake);
     
     switch(lastDirection)
     {
@@ -71,6 +79,9 @@ GameScreen::Update(float dt)
             break;
     }
     
-    m_snake->SetPosition(pos);
+    m_grid.SetIntermediatePosition(m_snake, pos);
+    
+    /** Call after position updates so the grid can snap actors back to the cell boundaries. */
+    m_grid.Update(dt);
 }
 

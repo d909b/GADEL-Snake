@@ -23,6 +23,7 @@ public:
 	virtual void Update(float dt);
 private:
     bool m_isStartGame;
+    bool m_messageSent;
     TextActor* m_start;
     TextActor* m_highscore;
 };

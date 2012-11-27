@@ -55,6 +55,8 @@
 		34EB43AB15A59EA800CF9CD8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E76381133967E200BA9A3C /* libz.dylib */; };
 		CD912FFA166451FF0020A3BC /* HighscoreScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD912FF8166451FF0020A3BC /* HighscoreScreen.cpp */; };
 		CD912FFB166451FF0020A3BC /* HighscoreScreen.h in Headers */ = {isa = PBXBuildFile; fileRef = CD912FF9166451FF0020A3BC /* HighscoreScreen.h */; };
+		CDB0905E16649C60009AE327 /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDB0905C16649C60009AE327 /* Grid.cpp */; };
+		CDB0905F16649C60009AE327 /* Grid.h in Headers */ = {isa = PBXBuildFile; fileRef = CDB0905D16649C60009AE327 /* Grid.h */; };
 		CDFCE85416643AAF00EDC839 /* SnakesGameManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDFCE85216643AAF00EDC839 /* SnakesGameManager.cpp */; };
 		CDFCE85516643AAF00EDC839 /* SnakesGameManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CDFCE85316643AAF00EDC839 /* SnakesGameManager.h */; };
 		CDFCE858166442C200EDC839 /* MenuScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDFCE856166442C200EDC839 /* MenuScreen.cpp */; };
@@ -205,6 +207,8 @@
 		8D1107320486CEB800E47090 /* ClientGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClientGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD912FF8166451FF0020A3BC /* HighscoreScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HighscoreScreen.cpp; sourceTree = "<group>"; };
 		CD912FF9166451FF0020A3BC /* HighscoreScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighscoreScreen.h; sourceTree = "<group>"; };
+		CDB0905C16649C60009AE327 /* Grid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Grid.cpp; sourceTree = "<group>"; };
+		CDB0905D16649C60009AE327 /* Grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grid.h; sourceTree = "<group>"; };
 		CDFCE85216643AAF00EDC839 /* SnakesGameManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SnakesGameManager.cpp; sourceTree = "<group>"; };
 		CDFCE85316643AAF00EDC839 /* SnakesGameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnakesGameManager.h; sourceTree = "<group>"; };
 		CDFCE856166442C200EDC839 /* MenuScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuScreen.cpp; sourceTree = "<group>"; };
@@ -321,6 +325,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		CDB0904D16649B06009AE327 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				CDB0905C16649C60009AE327 /* Grid.cpp */,
+				CDB0905D16649C60009AE327 /* Grid.h */,
+			);
+			name = Infrastructure;
+			sourceTree = "<group>";
+		};
 		CDFCE85016643A6E00EDC839 /* SnakesGame */ = {
 			isa = PBXGroup;
 			children = (
@@ -334,6 +347,7 @@
 		CDFCE85116643A7F00EDC839 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				CDB0904D16649B06009AE327 /* Infrastructure */,
 				CDFCE856166442C200EDC839 /* MenuScreen.cpp */,
 				CDFCE857166442C200EDC839 /* MenuScreen.h */,
 				CDFCE85A166442EA00EDC839 /* GameScreen.cpp */,
@@ -356,6 +370,7 @@
 				CDFCE859166442C200EDC839 /* MenuScreen.h in Headers */,
 				CDFCE85D166442EA00EDC839 /* GameScreen.h in Headers */,
 				CD912FFB166451FF0020A3BC /* HighscoreScreen.h in Headers */,
+				CDB0905F16649C60009AE327 /* Grid.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -543,6 +558,7 @@
 				CDFCE858166442C200EDC839 /* MenuScreen.cpp in Sources */,
 				CDFCE85C166442EA00EDC839 /* GameScreen.cpp in Sources */,
 				CD912FFA166451FF0020A3BC /* HighscoreScreen.cpp in Sources */,
+				CDB0905E16649C60009AE327 /* Grid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

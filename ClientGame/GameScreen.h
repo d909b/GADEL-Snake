@@ -9,6 +9,7 @@
 #pragma once
 
 #include "SnakesGameManager.h"
+#include "Grid.h"
 
 /**
 * @class GameScreen
@@ -18,9 +19,11 @@
 class GameScreen : public SnakesScreen
 {
 public:
+    GameScreen();
 	void Start();
     void Update(float dt);
 private:
     Actor* m_snake;
     TextActor* m_highscore;
+    Grid m_grid;
 };

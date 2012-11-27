@@ -17,6 +17,7 @@ void
 MenuScreen::Start()
 {
     m_isStartGame = true;
+    m_messageSent = false;
     
     m_start = new TextActor("Console", "Start Game");
 	m_start->SetPosition(MathUtil::ScreenToWorld(theCamera.GetWindowWidth() / 2 - 50, theCamera.GetWindowHeight() / 2 - 30));
@@ -40,11 +41,19 @@ MenuScreen::Update(float dt)
     {
         if(m_isStartGame)
         {
-            theSwitchboard.Broadcast(new Message("StartGame"));
+            if(!m_messageSent)
+            {
+                theSwitchboard.Broadcast(new Message("StartGame"));
+                m_messageSent = true;
+            }
         }
         else
         {
-            theSwitchboard.Broadcast(new Message("ShowHighscore"));
+            if(!m_messageSent)
+            {
+                theSwitchboard.Broadcast(new Message("ShowHighscore"));
+                m_messageSent = true;
+            }
         }
     }
     else if(theInput.IsKeyDown(GLFW_KEY_DOWN))

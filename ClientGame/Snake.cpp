@@ -18,7 +18,11 @@ Snake::Snake(Grid* grid) :
 {
     SetColor(0, 0, 0);
     SetDrawShape(ADS_Square);
-    SetSize(1.);
+    
+    const float kVerticesPerPixelX = theCamera.GetWorldMaxVertex().X * 2 / theCamera.GetWindowWidth();
+    const float kVerticesPerPixelY = theCamera.GetWorldMaxVertex().Y * 2 / theCamera.GetWindowHeight();
+    
+    SetSize(Vector2(32 * kVerticesPerPixelX, 32 * kVerticesPerPixelY));
     SetPosition(0, 0);
     
 	theSwitchboard.SubscribeTo(this, "GridCollision");
@@ -135,7 +139,10 @@ Snake::handleConsumedFood(Message* m)
         tail->SetDrawShape(ADS_Square);
     }
     
-    tail->SetSize(1.);
+    const float kVerticesPerPixelX = theCamera.GetWorldMaxVertex().X * 2 / theCamera.GetWindowWidth();
+    const float kVerticesPerPixelY = theCamera.GetWorldMaxVertex().Y * 2 / theCamera.GetWindowHeight();
+    
+    tail->SetSize(Vector2(32 * kVerticesPerPixelX, 32 * kVerticesPerPixelY));;
     tail->SetPosition(m_grid->GetIntermediatePosition(this));
     m_grid->AddActor(tail);
     theWorld.Add(tail);

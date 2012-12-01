@@ -15,8 +15,8 @@
 #define kHighscoreLayer kSnakeHeadLayer + 1
 
 GameScreen::GameScreen() :
-    m_grid(theCamera.GetWorldMaxVertex().X * 2,
-           theCamera.GetWorldMaxVertex().Y * 2),
+    m_grid(32,
+           24),
     m_foodGenerator(&m_grid),
     m_highscoreCounter(0)
 {

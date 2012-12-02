@@ -40,6 +40,7 @@ private:
     void handleConsumedFood(Message* m);
     void handleChangeDirection(Direction direction);
     void chooseCornerOrientation(Actor* current, float priorRot, Vector2 priorPos);
+    Actor* addTailPiece();
     
     Grid* m_grid;
     Direction m_direction;

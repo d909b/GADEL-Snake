@@ -23,6 +23,17 @@ Snake::Snake(Grid* grid) :
     SetPosition(0, 0);
     SetSprite("Resources/Images/snake/snake_head.png");
     
+    Vector2 startGrid = m_grid->WorldSpaceToGrid(GetPosition());
+    
+    Actor* t = addTailPiece();
+    t->SetPosition(m_grid->GridToWorldSpace(Vector2(startGrid.X, startGrid.Y - 1)));
+    
+    t = addTailPiece();
+    t->SetPosition(m_grid->GridToWorldSpace(Vector2(startGrid.X, startGrid.Y - 2)));
+    
+    t = addTailPiece();
+    t->SetPosition(m_grid->GridToWorldSpace(Vector2(startGrid.X, startGrid.Y - 3)));
+    
 	theSwitchboard.SubscribeTo(this, "GridCollision");
     theSwitchboard.SubscribeTo(this, "FoodConsumed");
     theSwitchboard.SubscribeTo(this, "MoveUp");
@@ -188,6 +199,12 @@ Snake::handleCollision(Message* m)
 void
 Snake::handleConsumedFood(Message* m)
 {
+    addTailPiece();
+}
+
+Actor*
+Snake::addTailPiece()
+{
     /** Increase length of the trailing tail */
     Actor* tail = new Actor();
     
@@ -209,6 +226,8 @@ Snake::handleConsumedFood(Message* m)
     m_grid->AddActor(tail);
     theWorld.Add(tail);
     m_tail.push_front(tail);
+    
+    return tail;
 }
 
 void

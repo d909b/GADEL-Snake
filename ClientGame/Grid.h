@@ -22,6 +22,7 @@ public:
 	Grid(uint32_t width, uint32_t height);
     ~Grid();
     
+    void LoadBackground(int layer);
     void Update(float dt);
     void AddActor(Actor* actor);
     void RemoveActor(Actor* actor);

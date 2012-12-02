@@ -16,14 +16,12 @@ Snake::Snake(Grid* grid) :
     m_direction(DirectionUp),
     m_movespeed(10.f)
 {
-    SetColor(0, 0, 0);
-    SetDrawShape(ADS_Square);
-    
     const float kVerticesPerPixelX = theCamera.GetWorldMaxVertex().X * 2 / theCamera.GetWindowWidth();
     const float kVerticesPerPixelY = theCamera.GetWorldMaxVertex().Y * 2 / theCamera.GetWindowHeight();
     
     SetSize(Vector2(32 * kVerticesPerPixelX, 32 * kVerticesPerPixelY));
     SetPosition(0, 0);
+    SetSprite("Resources/Images/snake/snake_head.png");
     
 	theSwitchboard.SubscribeTo(this, "GridCollision");
     theSwitchboard.SubscribeTo(this, "FoodConsumed");
@@ -45,6 +43,7 @@ Snake::Update(float dt)
     Vector2 oldPos = pos;
     Vector2 oldGridPos = m_grid->WorldSpaceToGrid(pos);
     
+    float rot = 0;
     switch(m_direction)
     {
         case DirectionUp:
@@ -52,37 +51,100 @@ Snake::Update(float dt)
             break;
         case DirectionDown:
             pos.Y -= m_movespeed * dt;
+            rot = 180;
             break;
         case DirectionLeft:
             pos.X -= m_movespeed * dt;
+            rot = 90;
             break;
         case DirectionRight:
             pos.X += m_movespeed * dt;
+            rot = 270;
             break;
     }
     
     m_grid->SetIntermediatePosition(this, pos);
     Vector2 newGridPos = m_grid->WorldSpaceToGrid(pos);
     
+    SetRotation(rot);
+    
     if(oldGridPos != newGridPos)
     {
+        if(m_biteTimer > 1)
+        {
+            SetSprite("Resources/Images/snake/snake_head.png");
+        }
+        
+        m_biteTimer++;
+        
         /** The snake head has moved a cell. Adjust the tail. */
         std::deque<Actor*>::iterator it = m_tail.begin();
         
         Vector2 prior = oldPos;
+        float priorRot = GetRotation();
         for(; it != m_tail.end(); ++it)
         {
             /** Shift all tail members to the position of the member prior to itself. */
             Vector2 tmp = m_grid->GetIntermediatePosition(*it);
             m_grid->SetIntermediatePosition(*it, prior);
+            
+            float tmpRot = (*it)->GetRotation();
+            
+            bool isCorner = false;
+            if(*it != m_tail.back())
+            {
+                if(tmpRot != priorRot)
+                {
+                    chooseCornerOrientation(*it, priorRot, prior);
+                    isCorner = true;
+                }
+                else
+                {
+                    (*it)->SetSprite("Resources/Images/snake/snake_body.png");
+                }
+            }
+            
+            (*it)->SetRotation(priorRot);
+            
+            priorRot = tmpRot;
             prior = tmp;
         }
     }
 }
 
 void
+Snake::chooseCornerOrientation(Actor *current, float priorRot, Vector2 priorPos)
+{
+    bool isLeftTurn = false;
+    
+    isLeftTurn = current->GetRotation() < priorRot;
+    
+    /** Handle the corner cases properly aswell. */
+    if(current->GetRotation() == 270 && priorRot == 0)
+    {
+        isLeftTurn = true;
+    }
+    
+    if((current->GetRotation() == 0 && priorRot == 270))
+    {
+        isLeftTurn = false;
+    }
+    
+    if(isLeftTurn)
+    {
+        current->SetSprite("Resources/Images/snake/snake_corner270.png");
+    }
+    else
+    {
+        current->SetSprite("Resources/Images/snake/snake_corner.png");
+    }
+}
+
+void
 Snake::Consume(Consumable* consumable)
 {
+    m_biteTimer = 0;
+    SetSprite("Resources/Images/snake/snake_head_bite.png");
     consumable->performConsumption(this);
 }
 
@@ -128,22 +190,22 @@ Snake::handleConsumedFood(Message* m)
 {
     /** Increase length of the trailing tail */
     Actor* tail = new Actor();
-    tail->SetColor(1, 0, 0);
     
     if(m_tail.size() == 0)
     {
-        tail->SetDrawShape(ADS_Circle);
+        tail->SetSprite("Resources/Images/snake/snake_tail.png");
     }
     else
     {
-        tail->SetDrawShape(ADS_Square);
+        tail->SetSprite("Resources/Images/snake/snake_body.png");
     }
     
     const float kVerticesPerPixelX = theCamera.GetWorldMaxVertex().X * 2 / theCamera.GetWindowWidth();
     const float kVerticesPerPixelY = theCamera.GetWorldMaxVertex().Y * 2 / theCamera.GetWindowHeight();
     
-    tail->SetSize(Vector2(32 * kVerticesPerPixelX, 32 * kVerticesPerPixelY));;
+    tail->SetSize(Vector2(32 * kVerticesPerPixelX, 32 * kVerticesPerPixelY));
     tail->SetPosition(m_grid->GetIntermediatePosition(this));
+    tail->SetRotation(GetRotation());
     m_grid->AddActor(tail);
     theWorld.Add(tail);
     m_tail.push_front(tail);

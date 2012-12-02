@@ -36,6 +36,29 @@ Grid::~Grid()
 }
 
 void
+Grid::LoadBackground(int layer)
+{
+    for(int i = 0; i < m_width; ++i)
+    {
+        for(int j = 0; j < m_height; ++j)
+        {
+            const float kVerticesPerPixelX = theCamera.GetWorldMaxVertex().X * 2 / theCamera.GetWindowWidth();
+            const float kVerticesPerPixelY = theCamera.GetWorldMaxVertex().Y * 2 / theCamera.GetWindowHeight();
+            
+            Actor* groundcell = Actor::Create("ground");
+            
+            groundcell->SetSize(Vector2(32 * kVerticesPerPixelX, 32 * kVerticesPerPixelY));
+            
+            /** SetPosition sets the center of the sprite, thus we have to add half the width/height. */
+            Vector2 pos = GridToWorldSpace(Vector2(i, j)) + groundcell->GetSize() / 2;;
+            groundcell->SetPosition(pos);
+        
+            theWorld.Add(groundcell, layer);
+        }
+    }
+}
+
+void
 Grid::Update(float dt)
 {
     /** Mark each actor on its current grid position. */

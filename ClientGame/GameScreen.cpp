@@ -29,9 +29,10 @@ GameScreen::Start()
     m_snake = new Snake(&m_grid);
     m_highscore = new TextActor("Console", "0000");
     m_highscore->SetPosition(MathUtil::ScreenToWorld(5, 25));
-    m_highscore->SetColor(0, 0, 0);
+    m_highscore->SetColor(1, 1, 1);
     
-    theWorld.Add(new GridActor());
+    m_grid.LoadBackground(kBackgroundLayer);
+    
     theWorld.Add(m_highscore, kHighscoreLayer);
     m_grid.AddActor(m_snake);
     theWorld.Add(m_snake, kSnakeHeadLayer);

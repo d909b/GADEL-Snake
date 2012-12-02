@@ -39,9 +39,11 @@ private:
     void handleCollision(Message* m);
     void handleConsumedFood(Message* m);
     void handleChangeDirection(Direction direction);
+    void chooseCornerOrientation(Actor* current, float priorRot, Vector2 priorPos);
     
     Grid* m_grid;
     Direction m_direction;
     float m_movespeed;
     std::deque<Actor*> m_tail;
+    int m_biteTimer;
 };

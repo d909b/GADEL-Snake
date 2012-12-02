@@ -10,10 +10,12 @@
 
 Food::Food(Vector2 position)
 {
-    SetColor(0, 0, 1);
-    SetDrawShape(ADS_Circle);
-    SetSize(1.);
+    const float kVerticesPerPixelX = theCamera.GetWorldMaxVertex().X * 2 / theCamera.GetWindowWidth();
+    const float kVerticesPerPixelY = theCamera.GetWorldMaxVertex().Y * 2 / theCamera.GetWindowHeight();
+    
+    SetSize(Vector2(32 * kVerticesPerPixelX, 32 * kVerticesPerPixelY));
     SetPosition(position);
+    SetSprite("Resources/Images/food/food_normal.png");
 }
 
 void 

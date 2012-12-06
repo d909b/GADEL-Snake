@@ -49,6 +49,12 @@ FoodGenerator::generateFood()
     Vector2 pos(MathUtil::RandomInt(gridSize.X),
                 MathUtil::RandomInt(gridSize.Y));
     
+    while(m_grid->isCellOccupied(pos.X, pos.Y))
+    {
+        pos = Vector2(MathUtil::RandomInt(gridSize.X),
+                      MathUtil::RandomInt(gridSize.Y));
+    }
+    
     m_currentFood = new Food(m_grid->GridToWorldSpace(pos));
     m_grid->AddActor(m_currentFood);
     theWorld.Add(m_currentFood);

@@ -54,6 +54,19 @@ Grid::LoadBackground(int layer)
             groundcell->SetPosition(pos);
         
             theWorld.Add(groundcell, layer);
+            
+            if(i == m_width - 1 || j == m_height - 1 || i == 0 || j == 0)
+            {
+                Actor* wall = Actor::Create("wall");
+                wall->SetSize(Vector2(32 * kVerticesPerPixelX, 32 * kVerticesPerPixelY));
+                
+                /** SetPosition sets the center of the sprite, thus we have to add half the width/height. */
+                Vector2 pos = GridToWorldSpace(Vector2(i, j));
+                wall->SetPosition(pos);
+                
+                theWorld.Add(wall, layer + 1);
+                AddActor(wall);
+            }
         }
     }
 }
@@ -61,6 +74,16 @@ Grid::LoadBackground(int layer)
 void
 Grid::Update(float dt)
 {
+    /** Clear the grid before the next frame update. */
+    for(int i = 0; i < m_width; ++i)
+    {
+        for(int j = 0; j < m_height; ++j)
+        {
+            std::set<Actor*>& cellOccupiers = m_collisionGrid[i][j];
+            cellOccupiers.clear();
+        }
+    }
+    
     /** Mark each actor on its current grid position. */
     std::vector<Actor*>::iterator it = m_actors.begin();
     for(; it != m_actors.end(); ++it)
@@ -103,9 +126,6 @@ Grid::Update(float dt)
                 
                 theSwitchboard.Broadcast(collisionMessage);
             }
-            
-            /** Clear for the next run. */
-            cellOccupiers.clear();
         }
     }
 }
@@ -114,6 +134,12 @@ Vector2
 Grid::GetSize() const
 {
     return Vector2(m_width, m_height);
+}
+
+bool
+Grid::isCellOccupied(int i, int j)
+{
+    return m_collisionGrid[i][j].size() != 0;
 }
 
 void
@@ -166,6 +192,17 @@ Grid::GetIntermediatePosition(Actor* actor) const
 }
 
 Vector2
+Grid::GetUnitSize() const
+{
+    Vector2 max = theCamera.GetWorldMaxVertex();
+    
+    const float kUnitLengthX = max.X * 2  / m_width;
+    const float kUnitLengthY = max.Y * 2  / m_height;
+    
+    return Vector2(kUnitLengthX, kUnitLengthY);
+}
+
+Vector2
 Grid::WorldSpaceToGrid(Vector2 pos) const
 {
 #define CLAMP(x, minval, maxval) (MIN(MAX(minval, x), maxval))
@@ -176,8 +213,8 @@ Grid::WorldSpaceToGrid(Vector2 pos) const
     const float kUnitLengthY = max.Y * 2 / m_height;
     
     /** Shift by half the area (Negative axis) and divide by unit length. */
-    pos.X = round(pos.X + max.X / kUnitLengthX);
-    pos.Y = round(pos.Y + max.Y / kUnitLengthY);
+    pos.X = round((pos.X + max.X) / kUnitLengthX);
+    pos.Y = round((pos.Y + max.Y) / kUnitLengthY);
     
     /** Clamp values that are outside of the grid. */
     pos.X = CLAMP(pos.X, 0, m_width - 1);

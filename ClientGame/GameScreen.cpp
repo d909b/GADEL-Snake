@@ -21,6 +21,7 @@ GameScreen::GameScreen() :
     m_highscoreCounter(0)
 {
     theSwitchboard.SubscribeTo(this, "FoodConsumed");
+    theSwitchboard.SubscribeTo(this, "ObstacleHit");
 }
 
 void
@@ -65,5 +66,14 @@ GameScreen::ReceiveMessage(Message* m)
         ss << std::setfill('0') << std::setw(4) << ++m_highscoreCounter;
         
         m_highscore->SetDisplayString(ss.str());
+    }
+    else if(m->GetMessageName() == "ObstacleHit")
+    {
+        m_snake->stop();
+        
+        TextActor* gameOver = new TextActor("Console", "GAME OVER");
+        gameOver->SetPosition(0, 0);
+        gameOver->SetColor(1, 0, 0);
+        theWorld.Add(gameOver, kHighscoreLayer);
     }
 }

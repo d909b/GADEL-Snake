@@ -14,7 +14,10 @@
 Snake::Snake(Grid* grid) :
     m_grid(grid),
     m_direction(DirectionUp),
-    m_movespeed(10.f)
+    m_inputBufferMaxSize(3),
+    m_movespeed(10.f),
+    m_numConsumed(0),
+    m_isStopped(false)
 {
     const float kVerticesPerPixelX = theCamera.GetWorldMaxVertex().X * 2 / theCamera.GetWindowWidth();
     const float kVerticesPerPixelY = theCamera.GetWorldMaxVertex().Y * 2 / theCamera.GetWindowHeight();
@@ -23,16 +26,10 @@ Snake::Snake(Grid* grid) :
     SetPosition(0, 0);
     SetSprite("Resources/Images/snake/snake_head.png");
     
-    Vector2 startGrid = m_grid->WorldSpaceToGrid(GetPosition());
-    
-    Actor* t = addTailPiece();
-    t->SetPosition(m_grid->GridToWorldSpace(Vector2(startGrid.X, startGrid.Y - 1)));
-    
-    t = addTailPiece();
-    t->SetPosition(m_grid->GridToWorldSpace(Vector2(startGrid.X, startGrid.Y - 2)));
-    
-    t = addTailPiece();
-    t->SetPosition(m_grid->GridToWorldSpace(Vector2(startGrid.X, startGrid.Y - 3)));
+    Vector2 offset(0, -m_grid->GetUnitSize().Y);
+    Actor* t = addTailPiece(offset*3.f);
+    t = addTailPiece(offset*2.f);
+    t = addTailPiece(offset);
     
 	theSwitchboard.SubscribeTo(this, "GridCollision");
     theSwitchboard.SubscribeTo(this, "FoodConsumed");
@@ -50,6 +47,11 @@ Snake::~Snake()
 void
 Snake::Update(float dt)
 {
+    if(m_isStopped)
+    {
+        return;
+    }
+    
     Vector2 pos = m_grid->GetIntermediatePosition(this);
     Vector2 oldPos = pos;
     Vector2 oldGridPos = m_grid->WorldSpaceToGrid(pos);
@@ -77,10 +79,30 @@ Snake::Update(float dt)
     m_grid->SetIntermediatePosition(this, pos);
     Vector2 newGridPos = m_grid->WorldSpaceToGrid(pos);
     
-    SetRotation(rot);
-    
     if(oldGridPos != newGridPos)
     {
+        /** Only update the rotation on positional changes. */
+        SetRotation(rot);
+        
+        if(!m_requestedDirections.empty())
+        {
+            while(isOppositeDirection(m_requestedDirections.front()))
+            {
+                m_requestedDirections.pop();
+                
+                if(m_requestedDirections.empty())
+                {
+                    break;
+                }
+            }
+            
+            if(!m_requestedDirections.empty())
+            {
+                m_direction = m_requestedDirections.front();
+                m_requestedDirections.pop();
+            }
+        }
+        
         if(m_biteTimer > 1)
         {
             SetSprite("Resources/Images/snake/snake_head.png");
@@ -93,32 +115,42 @@ Snake::Update(float dt)
         
         Vector2 prior = oldPos;
         float priorRot = GetRotation();
-        for(; it != m_tail.end(); ++it)
+        
+        /** Insert a tailpiece right after the head. */
+        if(m_numConsumed != 0)
         {
-            /** Shift all tail members to the position of the member prior to itself. */
-            Vector2 tmp = m_grid->GetIntermediatePosition(*it);
-            m_grid->SetIntermediatePosition(*it, prior);
-            
-            float tmpRot = (*it)->GetRotation();
-            
-            bool isCorner = false;
-            if(*it != m_tail.back())
+            addTailPiece(prior);
+            m_numConsumed--;
+        }
+        else
+        {
+            for(; it != m_tail.end(); ++it)
             {
-                if(tmpRot != priorRot)
+                /** Shift all tail members to the position of the member prior to itself. */
+                Vector2 tmp = m_grid->GetIntermediatePosition(*it);
+                m_grid->SetIntermediatePosition(*it, prior);
+                
+                float tmpRot = (*it)->GetRotation();
+                
+                bool isCorner = false;
+                if(*it != m_tail.back())
                 {
-                    chooseCornerOrientation(*it, priorRot, prior);
-                    isCorner = true;
+                    if(tmpRot != priorRot)
+                    {
+                        chooseCornerOrientation(*it, priorRot, prior);
+                        isCorner = true;
+                    }
+                    else
+                    {
+                        (*it)->SetSprite("Resources/Images/snake/snake_body.png");
+                    }
                 }
-                else
-                {
-                    (*it)->SetSprite("Resources/Images/snake/snake_body.png");
-                }
+                
+                (*it)->SetRotation(priorRot);
+                
+                priorRot = tmpRot;
+                prior = tmp;
             }
-            
-            (*it)->SetRotation(priorRot);
-            
-            priorRot = tmpRot;
-            prior = tmp;
         }
     }
 }
@@ -199,11 +231,45 @@ Snake::handleCollision(Message* m)
 void
 Snake::handleConsumedFood(Message* m)
 {
-    addTailPiece();
+    m_numConsumed++;
+}
+
+bool
+Snake::isOppositeDirection(Direction direction)
+{
+    switch(direction)
+    {
+        case DirectionUp:
+            if(m_direction == DirectionDown)
+            {
+                return true;
+            }
+            break;
+        case DirectionDown:
+            if(m_direction == DirectionUp)
+            {
+                return true;
+            }
+            break;
+        case DirectionLeft:
+            if(m_direction == DirectionRight)
+            {
+                return true;
+            }
+            break;
+        case DirectionRight:
+            if(m_direction == DirectionLeft)
+            {
+                return true;
+            }
+            break;
+    }
+    
+    return false;
 }
 
 Actor*
-Snake::addTailPiece()
+Snake::addTailPiece(Vector2 position)
 {
     /** Increase length of the trailing tail */
     Actor* tail = new Actor();
@@ -221,10 +287,19 @@ Snake::addTailPiece()
     const float kVerticesPerPixelY = theCamera.GetWorldMaxVertex().Y * 2 / theCamera.GetWindowHeight();
     
     tail->SetSize(Vector2(32 * kVerticesPerPixelX, 32 * kVerticesPerPixelY));
-    tail->SetPosition(m_grid->GetIntermediatePosition(this));
+    tail->SetPosition(position);
     tail->SetRotation(GetRotation());
     m_grid->AddActor(tail);
-    theWorld.Add(tail);
+    
+    if(m_tail.size() == 0)
+    {
+        theWorld.Add(tail, 2);
+    }
+    else
+    {
+        theWorld.Add(tail);
+    }
+    
     m_tail.push_front(tail);
     
     return tail;
@@ -233,36 +308,19 @@ Snake::addTailPiece()
 void
 Snake::handleChangeDirection(Direction direction)
 {    
-    /** Only change if the direction is not opposing to the current direction. */
-    switch(direction)
-    {
-        case DirectionUp:
-            if(m_direction == DirectionDown)
-            {
-                return;
-            }
-            break;
-        case DirectionDown:
-            if(m_direction == DirectionUp)
-            {
-                return;
-            }
-            break;
-        case DirectionLeft:
-            if(m_direction == DirectionRight)
-            {
-                return;
-            }
-            break;
-        case DirectionRight:
-            if(m_direction == DirectionLeft)
-            {
-                return;
-            }
-            break;
-    }
+    /** Inputs are buffered until the next position update. */
+	m_requestedDirections.push(direction);
     
-	m_direction = direction;
+    if(m_requestedDirections.size() > m_inputBufferMaxSize)
+    {
+        m_requestedDirections.pop();
+    }
+}
+
+void
+Snake::stop()
+{
+    m_isStopped = true;
 }
 
 void

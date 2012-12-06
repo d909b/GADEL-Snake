@@ -31,6 +31,8 @@ public:
     Vector2 WorldSpaceToGrid(Vector2 pos) const;
     Vector2 GridToWorldSpace(Vector2 pos) const;
     Vector2 GetSize() const;
+    Vector2 GetUnitSize() const;
+    bool isCellOccupied(int i, int j);
 private:    
     uint32_t m_width, m_height;
     std::vector<Actor*> m_actors;

@@ -20,6 +20,7 @@ class FoodGenerator : public MessageListener
 {
 public:
     FoodGenerator(Grid* grid);
+    ~FoodGenerator();
 	void Update(float dt);
     virtual void ReceiveMessage(Message* m);
 private:

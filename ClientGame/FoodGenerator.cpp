@@ -17,6 +17,12 @@ FoodGenerator::FoodGenerator(Grid* grid) :
 	theSwitchboard.SubscribeTo(this, "FoodConsumed");
 }
 
+FoodGenerator::~FoodGenerator()
+{
+    m_currentFood->Destroy();
+    theSwitchboard.UnsubscribeFrom(this, "FoodConsumed");
+}
+
 void
 FoodGenerator::Update(float dt)
 {
@@ -41,7 +47,7 @@ FoodGenerator::generateFood()
     if(m_currentFood != NULL)
     {
         m_grid->RemoveActor(m_currentFood);
-        theWorld.Remove(m_currentFood);
+        m_currentFood->Destroy();
     }
     
     Vector2 gridSize = m_grid->GetSize();

@@ -51,7 +51,6 @@ MenuScreen::ReceiveMessage(Message* m)
         if(!m_messageSent)
         {
             m_messageSent = true;
-            theSwitchboard.UnsubscribeFrom(this, "EnterPressed");
             theSwitchboard.Broadcast(new Message("StartGame"));
         }
     }

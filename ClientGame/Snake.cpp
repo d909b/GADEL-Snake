@@ -41,7 +41,19 @@ Snake::Snake(Grid* grid) :
 
 Snake::~Snake()
 {
-	;
+    std::deque<Actor*>::iterator it = m_tail.begin();
+    
+    for(; it != m_tail.end(); ++it)
+    {
+        (*it)->Destroy();
+    }
+    
+    theSwitchboard.UnsubscribeFrom(this, "GridCollision");
+    theSwitchboard.UnsubscribeFrom(this, "FoodConsumed");
+    theSwitchboard.UnsubscribeFrom(this, "MoveUp");
+    theSwitchboard.UnsubscribeFrom(this, "MoveDown");
+    theSwitchboard.UnsubscribeFrom(this, "MoveLeft");
+    theSwitchboard.UnsubscribeFrom(this, "MoveRight");
 }
 
 void
@@ -326,6 +338,11 @@ Snake::stop()
 void
 Snake::ReceiveMessage(Message* m)
 {
+    if(m_isStopped)
+    {
+        return;
+    }
+    
 	if(m->GetMessageName() == "GridCollision")
     {
         handleCollision(m);

@@ -9,11 +9,12 @@
 #include "SnakesGameManager.h"
 #include "MenuScreen.h"
 #include "GameScreen.h"
-#include "HighscoreScreen.h"
 
 void
 SnakesScreen::Start()
-{}
+{
+    ;
+}
 
 void
 SnakesScreen::Stop()
@@ -100,10 +101,10 @@ void
 SnakesGameManager::startGame()
 {
     theWorld.Remove(m_currentScreen);
-    m_gameScreen = new GameScreen();
-    
     m_currentScreen->Stop();
     delete m_currentScreen;
+    
+    m_gameScreen = new GameScreen();
     
     m_currentScreen = m_gameScreen;
     theWorld.Add(m_gameScreen);
@@ -120,6 +121,7 @@ SnakesGameManager::showMenu()
     }
     
     m_menuScreen = new MenuScreen;
+    
     m_currentScreen = m_menuScreen;
     theWorld.Add(m_menuScreen);
     m_menuScreen->Start();

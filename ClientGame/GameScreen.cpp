@@ -30,7 +30,6 @@ GameScreen::~GameScreen()
     theSwitchboard.UnsubscribeFrom(this, "ObstacleHit");
 }
 
-
 void
 GameScreen::Start()
 {
@@ -84,8 +83,6 @@ GameScreen::ReceiveMessage(Message* m)
     {
         m_snake->stop();
         
-        theSwitchboard.SubscribeTo(this, "EnterPressed");
-        
         TextActor* gameOver = new TextActor("game_over", "GAME OVER");
         gameOver->SetPosition(-4.8f, 4.0f);
         gameOver->SetColor(1.f, 1.f, 1.f);
@@ -95,6 +92,10 @@ GameScreen::ReceiveMessage(Message* m)
         hitEnterText->SetColor(1.f, 1.f, 1.f);
         
         theWorld.Add(gameOver, kHighscoreLayer);
+        m_objects.push_back(gameOver);
         theWorld.Add(hitEnterText, kHighscoreLayer);
+        m_objects.push_back(hitEnterText);
+        
+        theSwitchboard.SubscribeTo(this, "EnterPressed");
     }
 }

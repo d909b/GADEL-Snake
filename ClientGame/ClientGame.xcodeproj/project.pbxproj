@@ -53,8 +53,6 @@
 		34EB439E15A59E1000CF9CD8 /* libjasper.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 34EB439D15A59E1000CF9CD8 /* libjasper.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
 		34EB43A915A59E2800CF9CD8 /* libjasper.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 34EB439D15A59E1000CF9CD8 /* libjasper.dylib */; };
 		34EB43AB15A59EA800CF9CD8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E76381133967E200BA9A3C /* libz.dylib */; };
-		CD912FFA166451FF0020A3BC /* HighscoreScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD912FF8166451FF0020A3BC /* HighscoreScreen.cpp */; };
-		CD912FFB166451FF0020A3BC /* HighscoreScreen.h in Headers */ = {isa = PBXBuildFile; fileRef = CD912FF9166451FF0020A3BC /* HighscoreScreen.h */; };
 		CDB0905E16649C60009AE327 /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDB0905C16649C60009AE327 /* Grid.cpp */; };
 		CDB0905F16649C60009AE327 /* Grid.h in Headers */ = {isa = PBXBuildFile; fileRef = CDB0905D16649C60009AE327 /* Grid.h */; };
 		CDB090621665245D009AE327 /* FoodGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDB090601665245D009AE327 /* FoodGenerator.cpp */; };
@@ -216,8 +214,6 @@
 		34E76403133979E000BA9A3C /* libpng.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpng.dylib; path = "../Angel/Libraries/DevIL-SDK-1.7.8/mac/lib/libpng.dylib"; sourceTree = "<group>"; };
 		34EB439D15A59E1000CF9CD8 /* libjasper.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libjasper.dylib; path = "../Angel/Libraries/DevIL-SDK-1.7.8/mac/lib/libjasper.dylib"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* ClientGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClientGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		CD912FF8166451FF0020A3BC /* HighscoreScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HighscoreScreen.cpp; sourceTree = "<group>"; };
-		CD912FF9166451FF0020A3BC /* HighscoreScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighscoreScreen.h; sourceTree = "<group>"; };
 		CDB0905C16649C60009AE327 /* Grid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Grid.cpp; sourceTree = "<group>"; };
 		CDB0905D16649C60009AE327 /* Grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grid.h; sourceTree = "<group>"; };
 		CDB090601665245D009AE327 /* FoodGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FoodGenerator.cpp; sourceTree = "<group>"; };
@@ -393,8 +389,6 @@
 				CDFCE857166442C200EDC839 /* MenuScreen.h */,
 				CDFCE85A166442EA00EDC839 /* GameScreen.cpp */,
 				CDFCE85B166442EA00EDC839 /* GameScreen.h */,
-				CD912FF8166451FF0020A3BC /* HighscoreScreen.cpp */,
-				CD912FF9166451FF0020A3BC /* HighscoreScreen.h */,
 			);
 			name = Screens;
 			sourceTree = "<group>";
@@ -410,7 +404,6 @@
 				CDFCE85516643AAF00EDC839 /* SnakesGameManager.h in Headers */,
 				CDFCE859166442C200EDC839 /* MenuScreen.h in Headers */,
 				CDFCE85D166442EA00EDC839 /* GameScreen.h in Headers */,
-				CD912FFB166451FF0020A3BC /* HighscoreScreen.h in Headers */,
 				CDB0905F16649C60009AE327 /* Grid.h in Headers */,
 				CDB090631665245D009AE327 /* FoodGenerator.h in Headers */,
 				CDB0906716652468009AE327 /* PowerupGenerator.h in Headers */,
@@ -604,7 +597,6 @@
 				CDFCE85416643AAF00EDC839 /* SnakesGameManager.cpp in Sources */,
 				CDFCE858166442C200EDC839 /* MenuScreen.cpp in Sources */,
 				CDFCE85C166442EA00EDC839 /* GameScreen.cpp in Sources */,
-				CD912FFA166451FF0020A3BC /* HighscoreScreen.cpp in Sources */,
 				CDB0905E16649C60009AE327 /* Grid.cpp in Sources */,
 				CDB090621665245D009AE327 /* FoodGenerator.cpp in Sources */,
 				CDB0906616652468009AE327 /* PowerupGenerator.cpp in Sources */,

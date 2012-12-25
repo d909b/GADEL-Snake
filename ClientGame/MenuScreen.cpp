@@ -10,34 +10,37 @@
 
 MenuScreen::MenuScreen()
 {
-    ;
+    theSwitchboard.SubscribeTo(this, "EnterPressed");
+}
+
+MenuScreen::~MenuScreen()
+{
+    theSwitchboard.UnsubscribeFrom(this, "EnterPressed");
 }
 
 void
 MenuScreen::Start()
-{
-    theSwitchboard.SubscribeTo(this, "EnterPressed");
-    theSwitchboard.SubscribeTo(this, "MenuMoveUp");
-    theSwitchboard.SubscribeTo(this, "MenuMoveDown");
-    
-    m_isStartGame = true;
+{    
     m_messageSent = false;
     
-    m_start = new TextActor("Console", "Start Game");
-	m_start->SetPosition(MathUtil::ScreenToWorld(theCamera.GetWindowWidth() / 2 - 50,
-                                                 theCamera.GetWindowHeight() / 2 - 30));
-	m_start->SetColor(1.f, 0.f, 1.f);
+    RegisterFont("Resources/Fonts/slkscrb.ttf", 30, "standard");
+    RegisterFont("Resources/Fonts/slkscrb.ttf", 50.f, "game_over");
     
-    m_highscore = new TextActor("Console", "Highscore");
-	m_highscore->SetPosition(MathUtil::ScreenToWorld(theCamera.GetWindowWidth() / 2 - 45,
-                                                     theCamera.GetWindowHeight() / 2 + 30));
-	m_highscore->SetColor(1.f, 0.f, 0.f);
+    m_start = new TextActor("standard", "Hit [Enter] to start the game...");
+	m_start->SetPosition(MathUtil::ScreenToWorld(170.f, 500.f));
+	m_start->SetColor(1.f, 1.f, 1.f);
     
-    theWorld.Add(m_start);
-    theWorld.Add(m_highscore);
+    
+    m_background = new Actor();
+    m_background->SetSprite("Resources/Images/menu/title_screen.png");
+    m_background->SetPosition(0.f, 0.f);
+    m_background->SetSize(Vector2(theCamera.GetWorldMaxVertex().X*2, theCamera.GetWorldMaxVertex().Y*2));
+    
+    theWorld.Add(m_background, 0);
+    theWorld.Add(m_start, 1);
     
     m_objects.push_back(m_start);
-    m_objects.push_back(m_highscore);
+    m_objects.push_back(m_background);
 }
 
 void
@@ -45,42 +48,11 @@ MenuScreen::ReceiveMessage(Message* m)
 {
     if(m->GetMessageName() == "EnterPressed")
     {
-        if(m_isStartGame)
+        if(!m_messageSent)
         {
-            if(!m_messageSent)
-            {
-                m_messageSent = true;
-                theSwitchboard.UnsubscribeFrom(this, "EnterPressed");
-                theSwitchboard.UnsubscribeFrom(this, "MenuMoveUp");
-                theSwitchboard.UnsubscribeFrom(this, "MenuMoveDown");
-                theSwitchboard.Broadcast(new Message("StartGame"));
-            }
-        }
-        else
-        {
-            if(!m_messageSent)
-            {
-                m_messageSent = true;
-                theSwitchboard.UnsubscribeFrom(this, "EnterPressed");
-                theSwitchboard.UnsubscribeFrom(this, "MenuMoveUp");
-                theSwitchboard.UnsubscribeFrom(this, "MenuMoveDown");
-                theSwitchboard.Broadcast(new Message("ShowHighscore"));
-            }
-        }
-    }
-    else if(m->GetMessageName() == "MenuMoveUp" || m->GetMessageName() == "MenuMoveDown")
-    {
-        m_isStartGame = !m_isStartGame;
-        
-        if(m_isStartGame)
-        {
-            m_start->SetColor(1.f, 0.f, 1.f);
-            m_highscore->SetColor(1.f, 0.f, 0.f);
-        }
-        else
-        {
-            m_start->SetColor(1.f, 0.f, 0.f);
-            m_highscore->SetColor(1.f, 0.f, 1.f);
+            m_messageSent = true;
+            theSwitchboard.UnsubscribeFrom(this, "EnterPressed");
+            theSwitchboard.Broadcast(new Message("StartGame"));
         }
     }
 }

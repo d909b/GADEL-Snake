@@ -53,15 +53,15 @@ SnakesGameManager::SnakesGameManager()
 {
 	//subscribe to messages
 	theSwitchboard.SubscribeTo(this, "StartGame");
-    theSwitchboard.SubscribeTo(this, "ShowHighscore");
+    theSwitchboard.SubscribeTo(this, "ShowMenu");
 	
-    m_menuScreen = new MenuScreen();
-    m_gameScreen = new GameScreen();
-    m_highscoreScreen = new HighscoreScreen();
+    //Initialize Screens
+    m_currentScreen = NULL;
+    m_menuScreen = NULL;
+    m_gameScreen = NULL;
     
-    m_currentScreen = m_menuScreen;
-    theWorld.Add(m_menuScreen);
-    m_menuScreen->Start();
+    showMenu();
+    
 	
 	// We must set the sound callback method.  Although, I'm wondering if we should
 	// allow them to not specify it if they don't need the functionality.
@@ -91,28 +91,38 @@ SnakesGameManager::ReceiveMessage(Message* message)
 	{
 		startGame();
 	}
-	else if(message->GetMessageName() == "ShowHighscore")
-	{
-		showHighscore();
-	}
+    else if(message->GetMessageName() == "ShowMenu"){
+        showMenu();
+    }
 }
 
 void
 SnakesGameManager::startGame()
 {
+    theWorld.Remove(m_currentScreen);
+    m_gameScreen = new GameScreen();
+    
     m_currentScreen->Stop();
+    delete m_currentScreen;
+    
     m_currentScreen = m_gameScreen;
     theWorld.Add(m_gameScreen);
     m_gameScreen->Start();
 }
 
 void
-SnakesGameManager::showHighscore()
+SnakesGameManager::showMenu()
 {
-    m_currentScreen->Stop();
-    m_currentScreen = m_highscoreScreen;
-    theWorld.Add(m_highscoreScreen);
-    m_highscoreScreen->Start();
+    theWorld.Remove(m_currentScreen);
+    if(m_currentScreen != NULL){
+        m_currentScreen->Stop();
+        delete m_currentScreen;
+    }
+    
+    m_menuScreen = new MenuScreen;
+    m_currentScreen = m_menuScreen;
+    theWorld.Add(m_menuScreen);
+    m_menuScreen->Start();
 }
 
 void

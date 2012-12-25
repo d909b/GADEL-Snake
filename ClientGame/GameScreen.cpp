@@ -24,6 +24,13 @@ GameScreen::GameScreen() :
     theSwitchboard.SubscribeTo(this, "ObstacleHit");
 }
 
+GameScreen::~GameScreen()
+{
+    theSwitchboard.UnsubscribeFrom(this, "FoodConsumed");
+    theSwitchboard.UnsubscribeFrom(this, "ObstacleHit");
+}
+
+
 void
 GameScreen::Start()
 {
@@ -38,6 +45,7 @@ GameScreen::Start()
     m_grid.AddActor(m_snake);
     theWorld.Add(m_snake, kSnakeHeadLayer);
     m_objects.push_back(m_snake);
+    m_objects.push_back(m_highscore);
 }
 
 void
@@ -67,13 +75,26 @@ GameScreen::ReceiveMessage(Message* m)
         
         m_highscore->SetDisplayString(ss.str());
     }
+    else if(m->GetMessageName() == "EnterPressed")
+    {
+        theSwitchboard.UnsubscribeFrom(this, "EnterPressed");
+        theSwitchboard.Broadcast(new Message("ShowMenu"));
+    }
     else if(m->GetMessageName() == "ObstacleHit")
     {
         m_snake->stop();
         
-        TextActor* gameOver = new TextActor("Console", "GAME OVER");
-        gameOver->SetPosition(0, 0);
-        gameOver->SetColor(1, 0, 0);
+        theSwitchboard.SubscribeTo(this, "EnterPressed");
+        
+        TextActor* gameOver = new TextActor("game_over", "GAME OVER");
+        gameOver->SetPosition(-4.8f, 4.0f);
+        gameOver->SetColor(1.f, 1.f, 1.f);
+        
+        TextActor* hitEnterText = new TextActor("standard", "Hit [Enter] to get back to menu...");
+        hitEnterText->SetPosition(-8.8f, 0.0f);
+        hitEnterText->SetColor(1.f, 1.f, 1.f);
+        
         theWorld.Add(gameOver, kHighscoreLayer);
+        theWorld.Add(hitEnterText, kHighscoreLayer);
     }
 }

@@ -22,6 +22,7 @@ class GameScreen : public SnakesScreen, public MessageListener
 {
 public:
     GameScreen();
+    ~GameScreen();
 	void Start();
     void Update(float dt);
     void Render();

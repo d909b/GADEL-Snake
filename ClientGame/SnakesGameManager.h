@@ -49,10 +49,8 @@ protected:
 private:
     void showMenu();
     void startGame();
-    void showHighscore();
     
     SnakesScreen* m_currentScreen;
     SnakesScreen* m_menuScreen;
     SnakesScreen* m_gameScreen;
-    SnakesScreen* m_highscoreScreen;
 };

@@ -20,11 +20,12 @@ class MenuScreen : public SnakesScreen, public MessageListener
 {
 public:
     MenuScreen();
+    ~MenuScreen();
     virtual void Start();
     virtual void ReceiveMessage(Message* m);
+    
 private:
-    bool m_isStartGame;
     bool m_messageSent;
     TextActor* m_start;
-    TextActor* m_highscore;
+    Actor* m_background;
 };

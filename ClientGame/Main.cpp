@@ -18,8 +18,13 @@ int main(int argc, char* argv[])
 	
 	//adds the default grid so you can more easily place Actors
 	//theWorld.Add(new GridActor(), -1);
-
-	theWorld.SetGameManager(&theGameManager);
+    
+    //Register Fonts
+    RegisterFont("Resources/Fonts/slkscrb.ttf", 30, "standard");
+    RegisterFont("Resources/Fonts/slkscrb.ttf", 50.f, "popup");
+    
+    SnakesGameManager gameManager;
+	theWorld.SetGameManager(&gameManager);
 	
 	// do all your setup first, because this function won't return until you're exiting
 	theWorld.StartGame();

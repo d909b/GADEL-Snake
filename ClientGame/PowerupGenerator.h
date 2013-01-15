@@ -1,22 +1,29 @@
-/**
- *  PowerupGenerator.h
- *  ClientGame
- *
- *  Created by patrick on 11/27/12.
- *
- */
+//
+//  PowerupGenerator.h
+//  ClientGame
+//
+//  Created by Patrick Stapfer on 13.01.13.
+//
+//
 
-#pragma once
+#ifndef ClientGame_PowerupGenerator_h
+#define ClientGame_PowerupGenerator_h
 
-/**
-* @class PowerupGenerator
-*
-* @description Implementation of class PowerupGenerator.
-*/
+#include "Powerup.h"
+
+enum PowerupType
+{
+    DOUBLE_SCORE,
+    FASTER_MOVEMENT,
+    SLOWER_MOVEMENT,
+    _LAST
+};
+
 class PowerupGenerator
 {
 public:
-	PowerupGenerator();
-	~PowerupGenerator();
-private:
+    //Returns a new allocated Powerup object - The caller has to free the memory himself
+    static Powerup* produce(PowerupType type, Vector2 position, int ttl_milliseconds);
 };
+
+#endif

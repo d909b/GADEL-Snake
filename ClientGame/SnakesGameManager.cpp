@@ -7,134 +7,73 @@
  */
 
 #include "SnakesGameManager.h"
+#include "SnakesScreen.h"
 #include "MenuScreen.h"
-#include "GameScreen.h"
-
-void
-SnakesScreen::Start()
-{
-    ;
-}
-
-void
-SnakesScreen::Stop()
-{
-	std::vector<Renderable*>::iterator it = m_objects.begin();
-	while(m_objects.end() != it)
-	{
-		// we're pre-destroying physics bodies here because it
-		//  can mess with the pathfinding regeneration.
-		PhysicsActor* pa = dynamic_cast<PhysicsActor*> (*it);
-		if (pa != NULL)
-		{
-			if (pa->GetBody() != NULL)
-			{
-				pa->GetBody()->SetUserData(NULL);
-				theWorld.GetPhysicsWorld().DestroyBody(pa->GetBody());
-				pa->ResetBody();
-			}
-		}
-		(*it)->Destroy();
-		it++;
-	}
-	m_objects.clear();
-}
-
-void
-SnakesScreen::Update(float dt)
-{}
-
-void
-SnakesScreen::Render()
-{}
-
-SnakesGameManager* SnakesGameManager::s_gameManager = NULL;
+#include "LevelScreen.h"
 
 SnakesGameManager::SnakesGameManager()
+    : m_currentScreen(NULL)
 {
 	//subscribe to messages
 	theSwitchboard.SubscribeTo(this, "StartGame");
     theSwitchboard.SubscribeTo(this, "ShowMenu");
-	
-    //Initialize Screens
-    m_currentScreen = NULL;
-    m_menuScreen = NULL;
-    m_gameScreen = NULL;
     
-    showMenu();
-    
-	
 	// We must set the sound callback method.  Although, I'm wondering if we should
 	// allow them to not specify it if they don't need the functionality.
 	theSound.SetSoundCallback(this, &GameManager::SoundEnded);
+    
+    //Show the Mainmenu first before doing anything
+    showMenu();
 }
 
-SnakesGameManager&
-SnakesGameManager::GetInstance()
+SnakesGameManager::~SnakesGameManager()
 {
-	if (SnakesGameManager::s_gameManager == NULL)
-	{
-        SnakesGameManager::s_gameManager = new SnakesGameManager();
-	}
-	return *SnakesGameManager::s_gameManager;
+    theSwitchboard.UnsubscribeFrom(this, "StartGame");
+    theSwitchboard.UnsubscribeFrom(this, "ShowMenu");
 }
 
-SnakesScreen*
-SnakesGameManager::GetCurrentScreen()
+void SnakesGameManager::showMenu()
 {
-	return m_currentScreen;
+    replaceScreen(new MenuScreen());
 }
 
-void
-SnakesGameManager::ReceiveMessage(Message* message)
+void SnakesGameManager::Update(float dt) { ; }
+void SnakesGameManager::Render() { ; }
+
+void SnakesGameManager::replaceScreen(SnakesScreen* screen)
+{
+    //While the next screen is going to be shown, the current screen will be dumped automatically
+    if(m_currentScreen != NULL){
+        m_currentScreen->Destroy();
+        theWorld.Remove(m_currentScreen);
+        delete m_currentScreen;
+    }
+    
+    m_currentScreen = screen;
+    theWorld.Add(m_currentScreen, kBackgroundLayer);
+}
+
+void SnakesGameManager::startLevel(int lvl_number)
+{
+    //TODO: do some level-loading procedure, now there is only one static level supported
+    
+    switch(lvl_number){
+        default: replaceScreen(new LevelScreen());
+    }
+}
+
+void SnakesGameManager::SoundEnded(AngelSoundHandle sound)
+{	
+	// Detect sounds that have ended here.
+}
+
+void SnakesGameManager::ReceiveMessage(Message* message)
 {
     if(message->GetMessageName() == "StartGame")
 	{
-		startGame();
+		startLevel(1);
 	}
     else if(message->GetMessageName() == "ShowMenu"){
         showMenu();
     }
-}
-
-void
-SnakesGameManager::startGame()
-{
-    theWorld.Remove(m_currentScreen);
-    m_currentScreen->Stop();
-    delete m_currentScreen;
-    
-    m_gameScreen = new GameScreen();
-    
-    m_currentScreen = m_gameScreen;
-    theWorld.Add(m_gameScreen);
-    m_gameScreen->Start();
-}
-
-void
-SnakesGameManager::showMenu()
-{
-    theWorld.Remove(m_currentScreen);
-    if(m_currentScreen != NULL){
-        m_currentScreen->Stop();
-        delete m_currentScreen;
-    }
-    
-    m_menuScreen = new MenuScreen;
-    
-    m_currentScreen = m_menuScreen;
-    theWorld.Add(m_menuScreen);
-    m_menuScreen->Start();
-}
-
-void
-SnakesGameManager::Render()
-{
-	;
-}
-
-void
-SnakesGameManager::SoundEnded(AngelSoundHandle sound)
-{	
-	// Detect sounds that have ended here.
 }

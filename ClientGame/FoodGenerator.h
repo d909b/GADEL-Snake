@@ -8,6 +8,7 @@
 
 #pragma once
 
+class Powerup;
 class Food;
 class Grid;
 
@@ -25,6 +26,11 @@ public:
     virtual void ReceiveMessage(Message* m);
 private:
     void generateFood();
+    void generatePowerUp();
+    Vector2 generatePosition();
+    
     Food* m_currentFood;
+    Powerup* m_currentPowerup;
     Grid* m_grid;
+    
 };

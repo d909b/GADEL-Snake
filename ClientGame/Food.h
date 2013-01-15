@@ -15,10 +15,10 @@
 *
 * @description Implementation of class Food.
 */
-class Food : public Actor, public Consumable
+class Food : public Consumable
 {
 public:
     Food(Vector2 position);
-	virtual void performConsumption(Snake* snake) const;
+	virtual void performConsumption(Snake* snake);
 private:
 };

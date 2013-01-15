@@ -21,7 +21,10 @@ class MenuScreen : public SnakesScreen, public MessageListener
 public:
     MenuScreen();
     ~MenuScreen();
-    virtual void Start();
+    
+    virtual void Update(float dt);
+	virtual void Render();
+    
     virtual void ReceiveMessage(Message* m);
     
 private:

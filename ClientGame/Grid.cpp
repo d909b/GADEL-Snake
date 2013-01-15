@@ -139,6 +139,11 @@ Grid::GetSize() const
 bool
 Grid::isCellOccupied(int i, int j)
 {
+    if(m_collisionGrid == NULL)
+    {
+        return false;
+    }
+    
     return m_collisionGrid[i][j].size() != 0;
 }
 

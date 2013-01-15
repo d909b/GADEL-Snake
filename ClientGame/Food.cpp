@@ -8,18 +8,13 @@
 
 #include "Food.h"
 
-Food::Food(Vector2 position)
+Food::Food(Vector2 position) : Consumable(position, "Resources/Images/food/food_normal.png")
 {
-    const float kVerticesPerPixelX = theCamera.GetWorldMaxVertex().X * 2 / theCamera.GetWindowWidth();
-    const float kVerticesPerPixelY = theCamera.GetWorldMaxVertex().Y * 2 / theCamera.GetWindowHeight();
-    
-    SetSize(Vector2(32 * kVerticesPerPixelX, 32 * kVerticesPerPixelY));
-    SetPosition(position);
-    SetSprite("Resources/Images/food/food_normal.png");
+    ;
 }
 
 void 
-Food::performConsumption(Snake* snake) const
+Food::performConsumption(Snake* snake)
 {
     theSwitchboard.Broadcast(new Message("FoodConsumed"));
 }

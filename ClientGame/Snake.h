@@ -10,7 +10,10 @@
 
 #include <queue>
 #include <deque>
+#include <list>
+#include "Powerup.h"
 
+class Powerup;
 class Consumable;
 class Grid;
 
@@ -36,7 +39,26 @@ public:
     void stop();
     void Consume(Consumable* consumable);
     virtual void Update(float dt);
+    virtual void Render();
     virtual void ReceiveMessage(Message* m);
+    
+    /*
+      This method applies the effect of the powerup
+     */
+    void addPowerup(Powerup* powerup);
+    void updatePowerups(float dt);
+    
+    //Collision methods
+    void collide();
+    bool collided(Actor* actor);
+    
+    //Getter, Setter
+    unsigned int getPointMultiplicator();
+    void setPointMultiplicator(unsigned int);
+    std::list<Powerup*> getCurrentPowerups();
+    float GetMoveSpeed();
+    void SetMoveSpeed(float speed);
+    
 private:
     bool isOppositeDirection(Direction direction);
     void handleCollision(Message* m);
@@ -54,4 +76,6 @@ private:
     int m_biteTimer;
     int m_numConsumed;
     bool m_isStopped;
+    unsigned int m_pointMultiplicator;
+    std::list<Powerup*> m_current_powerups;
 };

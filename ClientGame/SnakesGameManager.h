@@ -8,23 +8,7 @@
 
 #pragma once
 
-#include <vector>
-
-class SnakesScreen : public Renderable
-{
-public:
-	virtual ~SnakesScreen() {;}
-    
-	virtual void Start();
-	virtual void Stop(); //calls remove on all m_objects and deletes them
-	virtual void Update(float dt);
-	virtual void Render();
-    
-protected:
-	std::vector<Renderable*> m_objects;
-};
-
-#define theGameManager SnakesGameManager::GetInstance()
+#include "SnakesScreen.h"
 
 /**
 * @class SnakesGameManager
@@ -34,23 +18,21 @@ protected:
 class SnakesGameManager : public GameManager
 {
 public:
-    static SnakesGameManager& GetInstance();
+	SnakesGameManager();
+    ~SnakesGameManager();
 	
-	SnakesScreen* GetCurrentScreen();
-	
+    virtual void Update(float dt);
 	virtual void Render();
     
 	virtual void SoundEnded(AngelSoundHandle sound);
-    
 	virtual void ReceiveMessage(Message* message);
-protected:
-    SnakesGameManager();
-    static SnakesGameManager* s_gameManager;
-private:
-    void showMenu();
-    void startGame();
     
+    //Game-Structure methods
+    void replaceScreen(SnakesScreen* screen);
+    void showMenu();
+    void startLevel(int lvl_number); //Starts a new level    
+    
+private:
+    //Stores the reference to the current displayed screen - This screen is the only one to be rendered / updated
     SnakesScreen* m_currentScreen;
-    SnakesScreen* m_menuScreen;
-    SnakesScreen* m_gameScreen;
 };

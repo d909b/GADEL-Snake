@@ -10,6 +10,7 @@
 #include <set>
 #include "Consumable.h"
 #include "Grid.h"
+#include "SnakesScreen.h"
 
 Snake::Snake(Grid* grid) :
     m_grid(grid),
@@ -17,7 +18,8 @@ Snake::Snake(Grid* grid) :
     m_inputBufferMaxSize(3),
     m_movespeed(10.f),
     m_numConsumed(0),
-    m_isStopped(false)
+    m_isStopped(false),
+    m_pointMultiplicator(1)
 {
     const float kVerticesPerPixelX = theCamera.GetWorldMaxVertex().X * 2 / theCamera.GetWindowWidth();
     const float kVerticesPerPixelY = theCamera.GetWorldMaxVertex().Y * 2 / theCamera.GetWindowHeight();
@@ -56,6 +58,16 @@ Snake::~Snake()
     theSwitchboard.UnsubscribeFrom(this, "MoveRight");
 }
 
+unsigned int Snake::getPointMultiplicator()
+{
+    return m_pointMultiplicator;
+}
+
+void Snake::setPointMultiplicator(unsigned int pointMultiplicator)
+{
+    m_pointMultiplicator = pointMultiplicator;
+}
+
 void
 Snake::Update(float dt)
 {
@@ -63,6 +75,9 @@ Snake::Update(float dt)
     {
         return;
     }
+    
+    //Update the powerup effects before doing anything
+    updatePowerups(dt);
     
     Vector2 pos = m_grid->GetIntermediatePosition(this);
     Vector2 oldPos = pos;
@@ -165,6 +180,17 @@ Snake::Update(float dt)
             }
         }
     }
+    m_grid->Update(dt);
+}
+
+void Snake::Render()
+{
+    Actor::Render();
+    std::deque<Actor*>::iterator it = m_tail.begin();
+    for(; it != m_tail.end(); ++it)
+    {
+        (*it)->Render();
+    }
 }
 
 void
@@ -229,7 +255,7 @@ Snake::handleCollision(Message* m)
             /** If the object is not consumable we've hit an obstacle. */
             else
             {
-                theSwitchboard.Broadcast(new Message("ObstacleHit"));
+                collide();
             }
         }
     }
@@ -305,11 +331,11 @@ Snake::addTailPiece(Vector2 position)
     
     if(m_tail.size() == 0)
     {
-        theWorld.Add(tail, 2);
+        //theWorld.Add(tail, kSnakeHeadLayer);
     }
     else
     {
-        theWorld.Add(tail);
+        //theWorld.Add(tail, kSnakeHeadLayer);
     }
     
     m_tail.push_front(tail);
@@ -333,6 +359,74 @@ void
 Snake::stop()
 {
     m_isStopped = true;
+}
+
+void Snake::addPowerup(Powerup* powerup)
+{
+    powerup->applyEffect(this);
+    m_current_powerups.push_back(powerup);
+}
+
+void Snake::updatePowerups(float dt)
+{
+    //Update the TTL for each item, if TTL reaches 0 detach the powerup
+    std::list<Powerup*>::iterator it = m_current_powerups.begin();
+
+    while (it != m_current_powerups.end())
+    {
+        (*it)->decreaseTTL(dt * 1000);
+        if ((*it)->isTTLexceeded())
+        {
+            (*it)->undoEffect(this);
+            (*it)->Destroy();
+            it = m_current_powerups.erase(it);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+}
+
+std::list<Powerup*> Snake::getCurrentPowerups()
+{
+    return m_current_powerups;
+}
+
+float Snake::GetMoveSpeed()
+{
+    return m_movespeed;
+}
+
+void Snake::SetMoveSpeed(float speed)
+{
+    m_movespeed = abs(speed);
+}
+
+
+void Snake::collide()
+{
+    theSwitchboard.Broadcast(new Message("ObstacleHit"));
+}
+
+bool Snake::collided(Actor* actor)
+{
+    //Values for actor
+    const Vector2 actorSize = actor->GetSize();
+    const Vector2 actorPos = actor->GetPosition();
+
+    //Values for snake
+    const Vector2 snakeSize = GetSize();
+    const Vector2 snakePos = GetPosition();
+
+    //Bottom, Top
+    BoundingBox actorBB(Vector2(actorPos.X - actorSize.X/2, actorPos.Y - actorSize.X/2), Vector2(actorPos.X + actorSize.X/2, actorPos.Y + actorSize.Y/2));
+    BoundingBox snakeBB(Vector2(snakePos.X - snakeSize.X/2, snakePos.Y + snakeSize.X/2), Vector2(snakePos.X + snakeSize.X/2, snakePos.Y + snakeSize.Y/2));
+    
+    if(actorBB.Intersects(snakeBB)){
+        return true;
+    }
+    return false;
 }
 
 void

@@ -52,10 +52,17 @@ public:
     void collide();
     bool collided(Actor* actor);
     
-    //Getter, Setter
+    //Getter
     unsigned int getPointMultiplicator();
-    void setPointMultiplicator(unsigned int);
     std::list<Powerup*> getCurrentPowerups();
+    bool isInvulnerable();
+    
+    
+    //Setter
+    void setPointMultiplicator(unsigned int multiplicator);
+    void setInvulnerable(bool isInvulnerable);
+    
+    
     float GetMoveSpeed();
     void SetMoveSpeed(float speed);
     
@@ -65,6 +72,7 @@ private:
     void handleConsumedFood(Message* m);
     void handleChangeDirection(Direction direction);
     void chooseCornerOrientation(Actor* current, float priorRot, Vector2 priorPos);
+    char* getSnakeHeadPath(bool bite);
     Actor* addTailPiece(Vector2 position);
     
     Grid* m_grid;
@@ -78,4 +86,5 @@ private:
     bool m_isStopped;
     unsigned int m_pointMultiplicator;
     std::list<Powerup*> m_current_powerups;
+    bool m_isInvulnerable;
 };

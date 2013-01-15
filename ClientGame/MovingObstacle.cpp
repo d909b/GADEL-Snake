@@ -43,7 +43,7 @@ void MovingObstacle::Update(float dt)
         m_direction *= -1;
     }
     
-    if(m_snake->collided(this))
+    if(!m_snake->isInvulnerable() && m_snake->collided(this))
     {
         m_snake->collide();
     }    

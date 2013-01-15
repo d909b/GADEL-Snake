@@ -47,7 +47,7 @@ void CirclingObstacle::Update(float dt)
     
     SetPosition(position);
     
-    if(m_snake->collided(this))
+    if(!m_snake->isInvulnerable() && m_snake->collided(this))
     {
         m_snake->collide();
     }

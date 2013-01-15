@@ -70,6 +70,8 @@
 		4D20283F16A5A1CE00DE0B81 /* LevelScreen.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D20283E16A5A1CE00DE0B81 /* LevelScreen.h */; };
 		4D20284216A5C61300DE0B81 /* CirclingObstacle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D20284016A5C61300DE0B81 /* CirclingObstacle.cpp */; };
 		4D20284316A5C61300DE0B81 /* CirclingObstacle.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D20284116A5C61300DE0B81 /* CirclingObstacle.h */; };
+		4D20284716A5DBB800DE0B81 /* InvulnerablePowerup.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D20284516A5DBB700DE0B81 /* InvulnerablePowerup.h */; };
+		4D20284916A5DC2C00DE0B81 /* InvulnerablePowerup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D20284816A5DC2C00DE0B81 /* InvulnerablePowerup.cpp */; };
 		CDB0905E16649C60009AE327 /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDB0905C16649C60009AE327 /* Grid.cpp */; };
 		CDB0905F16649C60009AE327 /* Grid.h in Headers */ = {isa = PBXBuildFile; fileRef = CDB0905D16649C60009AE327 /* Grid.h */; };
 		CDB090621665245D009AE327 /* FoodGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDB090601665245D009AE327 /* FoodGenerator.cpp */; };
@@ -249,6 +251,8 @@
 		4D20283E16A5A1CE00DE0B81 /* LevelScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelScreen.h; sourceTree = "<group>"; };
 		4D20284016A5C61300DE0B81 /* CirclingObstacle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CirclingObstacle.cpp; sourceTree = "<group>"; };
 		4D20284116A5C61300DE0B81 /* CirclingObstacle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CirclingObstacle.h; sourceTree = "<group>"; };
+		4D20284516A5DBB700DE0B81 /* InvulnerablePowerup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvulnerablePowerup.h; sourceTree = "<group>"; };
+		4D20284816A5DC2C00DE0B81 /* InvulnerablePowerup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InvulnerablePowerup.cpp; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* ClientGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClientGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDB0905C16649C60009AE327 /* Grid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Grid.cpp; sourceTree = "<group>"; };
 		CDB0905D16649C60009AE327 /* Grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grid.h; sourceTree = "<group>"; };
@@ -399,6 +403,8 @@
 				4D20280216A23E3200DE0B81 /* ScoreDoublePowerup.h */,
 				4D20280516A23F3300DE0B81 /* SlowPowerup.cpp */,
 				4D20280616A23F3400DE0B81 /* SlowPowerup.h */,
+				4D20284816A5DC2C00DE0B81 /* InvulnerablePowerup.cpp */,
+				4D20284516A5DBB700DE0B81 /* InvulnerablePowerup.h */,
 			);
 			name = Powerups;
 			sourceTree = "<group>";
@@ -493,6 +499,7 @@
 				4D20283D16A5973700DE0B81 /* SnakesScreen.h in Headers */,
 				4D20283F16A5A1CE00DE0B81 /* LevelScreen.h in Headers */,
 				4D20284316A5C61300DE0B81 /* CirclingObstacle.h in Headers */,
+				4D20284716A5DBB800DE0B81 /* InvulnerablePowerup.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -694,6 +701,7 @@
 				4D20283416A4674500DE0B81 /* MovingObstacle.cpp in Sources */,
 				4D20283C16A5973700DE0B81 /* SnakesScreen.cpp in Sources */,
 				4D20284216A5C61300DE0B81 /* CirclingObstacle.cpp in Sources */,
+				4D20284916A5DC2C00DE0B81 /* InvulnerablePowerup.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

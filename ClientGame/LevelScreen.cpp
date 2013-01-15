@@ -15,7 +15,7 @@
 
 
 //TESTINCLUDE
-#include "FastPowerup.h"
+#include "InvulnerablePowerup.h"
 
 
 LevelScreen::LevelScreen() :
@@ -34,13 +34,13 @@ LevelScreen::LevelScreen() :
     m_snake = new Snake(&m_grid);
     
     //TESTCODE
-    //m_snake->addPowerup(new FastPowerup(Vector2(0,0), 10000));
+    //m_snake->addPowerup(new InvulnerablePowerup(Vector2(0,0), 10000));
     //m_snake->addPowerup(new FastPowerup(Vector2(0,0), 10000));
     //m_snake->addPowerup(new FastPowerup(Vector2(0,0), 10000));
     //TESTCODE END
     
     //Generate obstacles to dodge
-    MovingObstacle* obstacle = new MovingObstacle(Vector2(6, 0), Vector2(0,1), 1.0, 100.0, "Resources/Images/obstacles/spikecube.png", m_snake);
+    MovingObstacle* obstacle = new MovingObstacle(Vector2(6, 0), Vector2(0,1), 1.0, 5.0, "Resources/Images/obstacles/spikecube.png", m_snake);
     CirclingObstacle* circleObstacle = new CirclingObstacle(Vector2(0,0), 1.0, 8.0, "Resources/Images/obstacles/spikecube.png", m_snake);
     
     //Generate UI elements

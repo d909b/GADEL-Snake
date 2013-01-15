@@ -10,6 +10,7 @@
 #include "ScoreDoublePowerup.h"
 #include "FastPowerup.h"
 #include "SlowPowerup.h"
+#include "InvulnerablePowerup.h"
 
 
 Powerup* PowerupGenerator::produce(PowerupType type, Vector2 position, int ttl_milliseconds)
@@ -22,6 +23,8 @@ Powerup* PowerupGenerator::produce(PowerupType type, Vector2 position, int ttl_m
             return new FastPowerup(position, ttl_milliseconds);
         case SLOWER_MOVEMENT:
             return new SlowPowerup(position, ttl_milliseconds);
+        case INVULNERABLE:
+            return new InvulnerablePowerup(position, ttl_milliseconds);
         default:
             return NULL;
     }

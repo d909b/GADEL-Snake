@@ -19,14 +19,15 @@ Snake::Snake(Grid* grid) :
     m_movespeed(10.f),
     m_numConsumed(0),
     m_isStopped(false),
-    m_pointMultiplicator(1)
+    m_pointMultiplicator(1),
+    m_isInvulnerable(false)
 {
     const float kVerticesPerPixelX = theCamera.GetWorldMaxVertex().X * 2 / theCamera.GetWindowWidth();
     const float kVerticesPerPixelY = theCamera.GetWorldMaxVertex().Y * 2 / theCamera.GetWindowHeight();
     
     SetSize(Vector2(32 * kVerticesPerPixelX, 32 * kVerticesPerPixelY));
     SetPosition(0, 0);
-    SetSprite("Resources/Images/snake/snake_head.png");
+    SetSprite(getSnakeHeadPath(false));
     
     Vector2 offset(0, -m_grid->GetUnitSize().Y);
     Actor* t = addTailPiece(offset*3.f);
@@ -132,7 +133,7 @@ Snake::Update(float dt)
         
         if(m_biteTimer > 1)
         {
-            SetSprite("Resources/Images/snake/snake_head.png");
+            SetSprite(getSnakeHeadPath(false));
         }
         
         m_biteTimer++;
@@ -225,7 +226,7 @@ void
 Snake::Consume(Consumable* consumable)
 {
     m_biteTimer = 0;
-    SetSprite("Resources/Images/snake/snake_head_bite.png");
+    SetSprite(getSnakeHeadPath(true));
     consumable->performConsumption(this);
 }
 
@@ -404,6 +405,16 @@ void Snake::SetMoveSpeed(float speed)
 }
 
 
+bool Snake::isInvulnerable()
+{
+    return m_isInvulnerable;
+}
+
+void Snake::setInvulnerable(bool isInvulnerable)
+{
+    m_isInvulnerable = isInvulnerable;
+}
+
 void Snake::collide()
 {
     theSwitchboard.Broadcast(new Message("ObstacleHit"));
@@ -427,6 +438,32 @@ bool Snake::collided(Actor* actor)
         return true;
     }
     return false;
+}
+
+char* Snake::getSnakeHeadPath(bool bite)
+{
+    if(bite)
+    {
+        if(isInvulnerable())
+        {
+            return "Resources/Images/snake/snake_head_bite_helmet.png";
+        }
+        else
+        {
+            return "Resources/Images/snake/snake_head_bite.png";
+        }
+    }
+    else
+    {
+        if(isInvulnerable())
+        {
+            return "Resources/Images/snake/snake_head_helmet.png";
+        }
+        else
+        {
+            return "Resources/Images/snake/snake_head.png";
+        }
+    }
 }
 
 void

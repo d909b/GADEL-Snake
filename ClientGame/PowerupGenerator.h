@@ -16,6 +16,7 @@ enum PowerupType
     DOUBLE_SCORE,
     FASTER_MOVEMENT,
     SLOWER_MOVEMENT,
+    INVULNERABLE,
     _LAST
 };
 
